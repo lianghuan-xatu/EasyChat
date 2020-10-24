@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xatu.easyChat.mapper.MyFriendsMapper" >
+  <resultMap id="BaseResultMap" type="com.xatu.easyChat.entity.MyFriends" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="my_user_id" property="myUserId" jdbcType="VARCHAR" />
+    <result column="my_friend_user_id" property="myFriendUserId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, my_user_id, my_friend_user_id
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from my_friends
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from my_friends
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.xatu.easyChat.entity.MyFriends" >
+    insert into my_friends (id, my_user_id, my_friend_user_id
+      )
+    values (#{id,jdbcType=VARCHAR}, #{myUserId,jdbcType=VARCHAR}, #{myFriendUserId,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.xatu.easyChat.entity.MyFriends" >
+    insert into my_friends
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="myUserId != null" >
+        my_user_id,
+      </if>
+      <if test="myFriendUserId != null" >
+        my_friend_user_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="myUserId != null" >
+        #{myUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="myFriendUserId != null" >
+        #{myFriendUserId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xatu.easyChat.entity.MyFriends" >
+    update my_friends
+    <set >
+      <if test="myUserId != null" >
+        my_user_id = #{myUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="myFriendUserId != null" >
+        my_friend_user_id = #{myFriendUserId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xatu.easyChat.entity.MyFriends" >
+    update my_friends
+    set my_user_id = #{myUserId,jdbcType=VARCHAR},
+      my_friend_user_id = #{myFriendUserId,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>
