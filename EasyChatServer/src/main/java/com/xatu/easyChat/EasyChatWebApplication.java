@@ -11,4 +11,5 @@ public class EasyChatWebApplication {
     public static void main(String args[]){
         SpringApplication.run(EasyChatWebApplication.class,args);
         }
+
 }
