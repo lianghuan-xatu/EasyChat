@@ -8,6 +8,7 @@ import tk.mybatis.mapper.common.BaseMapper;
 @SpringBootApplication()
 @MapperScan(basePackages = "com.xatu.easyChat.mapper")
 public class EasyChatWebApplication {
+    
     public static void main(String args[]){
         SpringApplication.run(EasyChatWebApplication.class,args);
         }
