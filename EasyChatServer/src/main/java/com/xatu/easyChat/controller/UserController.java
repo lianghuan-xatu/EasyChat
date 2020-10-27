@@ -44,6 +44,7 @@ public class UserController {
     @RequestMapping("/registerOrLogin")
     @ResponseBody
     public JSONResult registerOrLogin(@RequestBody User user) {
+
         //判断用户是否注册过
         User existUser = userService.queryUserIsExist(user.getUsername());
         if(existUser != null) {
@@ -65,11 +66,13 @@ public class UserController {
             if (insert < 1) {
                 return JSONResult.errorMsg("注册失败！");
             }
+            existUser = userService.queryUserIsExist(user.getUsername());
         }
             System.out.println("用户" + user.getUsername() + "登录成功");
-            //注册或登录成功，将用户信息返回到前台
+            //封装返回结果
             UserVo userVo = new UserVo();
-            BeanUtils.copyProperties(user,userVo);
+            //注册或登录成功，将用户信息返回到前台
+            BeanUtils.copyProperties(existUser,userVo);
             return JSONResult.ok(userVo);
     }
 
