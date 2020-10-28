@@ -8,4 +8,6 @@ public interface UserService {
     User queryUserIsExist(String username);
 
     int insert(User user);
+
+    User updateUserInfo(User user);
 }

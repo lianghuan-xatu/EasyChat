@@ -32,4 +32,10 @@ public class UserServiceImpl implements UserService {
         user.setId(String.valueOf(id));
         return userMapper.insert(user);
     }
+
+    @Override
+    public User updateUserInfo(User user) {
+        userMapper.updateByPrimaryKeySelective(user);
+        return userMapper.selectByPrimaryKey(user.getId());
+    }
 }
