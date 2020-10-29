@@ -1,6 +1,12 @@
 # EasyChat
 
 
+### 项目介绍：
+EasyChat是一个基于SpringBoot+MybatisPlus+Netty 高性能前后端分离的聊天应用混合式APP 
+IM 是 Instant Message 就是一个允许多人通过网络进行即时通讯的终端服务器， 它是目前Internet 上最为流行的通讯方式，在项目中我主要使用websocket和Netty高性能网络通讯框架进行编写的即时通信工具。
+其中我通过HTTP协议升级到websocket协议，从而实现服务器与客户端的全双工双向通信；使用Netty框架为websocket实现事件驱动型的非阻塞 api；除此之外我还用到H5进行移动客户端的开发，涉及移动客户端的交互式应用技术。
+前端使用最接近原生APP体验的高性能前端框架MUi，项目最后可打包成Android，IOS，PC客户端提供服务。追求性能体验，是我们开始启动MUI项目的首要目标，轻量必然是重要特征； MUI不依赖任何第三方JS库，压缩后的JS和CSS文件仅有100+K和60+K。
+鉴于之前的很多前端框架（特别是响应式布局的框架），UI控件看起来太像网页，没有原生感觉，因此追求原生UI感觉也是我们的重要目标。MUI以iOS平台UI为基础，补充部分Android平台特有的UI控件。
 
 
 任务 ：
