@@ -4,6 +4,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+
+
+
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
@@ -14,6 +17,15 @@
     <groupId>com.xatu.easychat</groupId>
     <artifactId>EasyChatServer</artifactId>
     <version>1.0-SNAPSHOT</version>
+
+
+    <properties>
+        <aliyun.oss.version>2.8.3</aliyun.oss.version>
+        <aliyun-java-sdk-core.version>4.3.3</aliyun-java-sdk-core.version>
+        <aliyun-sdk-oss.version>3.1.0</aliyun-sdk-oss.version>
+    </properties>
+
+
 
     <dependencies>
         <dependency>
@@ -99,12 +111,12 @@
             <version>4.1.50.Final</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/com.github.tobato/fastdfs-client -->
-        <dependency>
-            <groupId>com.github.tobato</groupId>
-            <artifactId>fastdfs-client</artifactId>
-            <version>1.27.2</version>
-        </dependency>
+<!--        &lt;!&ndash; https://mvnrepository.com/artifact/com.github.tobato/fastdfs-client &ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>com.github.tobato</groupId>-->
+<!--            <artifactId>fastdfs-client</artifactId>-->
+<!--            <version>1.27.2</version>-->
+<!--        </dependency>-->
 
         <!-- apache 工具类 -->
 
@@ -180,11 +192,21 @@
         </dependency>
 
 <!--        阿里云OSS-->
+
+        <dependency>
+            <groupId>com.aliyun</groupId>
+            <artifactId>aliyun-java-sdk-core</artifactId>
+            <version>${aliyun-java-sdk-core.version}</version>
+        </dependency>
+
         <dependency>
             <groupId>com.aliyun.oss</groupId>
             <artifactId>aliyun-sdk-oss</artifactId>
-            <version>3.10.2</version>
+            <version>${aliyun-sdk-oss.version}</version>
         </dependency>
+
+
+
     </dependencies>
 
     <build>
@@ -196,6 +218,8 @@
                     <version>1.3.2</version>
             </plugin>
         </plugins>
+
+
     </build>
 
 </project>

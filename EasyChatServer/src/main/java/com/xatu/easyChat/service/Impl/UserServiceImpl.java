@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
+
 public class UserServiceImpl implements UserService {
 
     @Autowired
@@ -38,4 +39,11 @@ public class UserServiceImpl implements UserService {
         userMapper.updateByPrimaryKeySelective(user);
         return userMapper.selectByPrimaryKey(user.getId());
     }
+
+    @Override
+    public void updateUserAvatar(String userId, String fileName) {
+        userMapper.updateUserAvatar(userId,fileName);
+    }
+
+
 }

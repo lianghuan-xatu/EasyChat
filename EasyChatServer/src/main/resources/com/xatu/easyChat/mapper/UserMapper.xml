@@ -131,4 +131,10 @@
       cid = #{cid,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
+    <update id="updateUserAvatar">
+      update users
+      set  face_image = #{imgUrl,jdbcType=VARCHAR},
+      face_image_big = #{imgUrl,jdbcType=VARCHAR}
+      where id = #{userId,jdbcType=VARCHAR}
+    </update>
 </mapper>
