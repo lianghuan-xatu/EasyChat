@@ -20,6 +20,14 @@
     delete from friends_request
     where id = #{id,jdbcType=VARCHAR}
   </delete>
+
+
+<!--  好友请求列表删除好友请求-->
+  <delete id="deleteByFriendRequest" parameterType="com.xatu.easyChat.entity.FriendsRequest" >
+    delete from friends_request
+    where send_user_id = #{sendUserId,jdbcType=VARCHAR} and accept_user_id =#{acceptUserId,jdbcType=VARCHAR}
+  </delete>
+
   <insert id="insert" parameterType="com.xatu.easyChat.entity.FriendsRequest" >
     insert into friends_request (id, send_user_id, accept_user_id, 
       request_date_time)

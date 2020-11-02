@@ -119,7 +119,7 @@ public class FileUtils {
             // File转换成MutipartFile
             File file = new File(filePath);
             FileInputStream inputStream = new FileInputStream(file);
-            MultipartFile multipartFile = new MockMultipartFile(file.getName(), "userFaceImage.png", "image/png", inputStream);
+            MultipartFile multipartFile = new MockMultipartFile(file.getName(), file.getName(), "image/png", inputStream);
             return multipartFile;
         } catch (IOException e) {
             // TODO Auto-generated catch block
