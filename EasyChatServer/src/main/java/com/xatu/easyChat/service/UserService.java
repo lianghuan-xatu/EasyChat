@@ -1,5 +1,6 @@
 package com.xatu.easyChat.service;
 
+import com.xatu.easyChat.easyChatServer.ChatMsg;
 import com.xatu.easyChat.entity.FriendsRequest;
 import com.xatu.easyChat.entity.User;
 import com.xatu.easyChat.entity.vo.FriendRequestVo;
@@ -29,4 +30,6 @@ public interface UserService {
     List<MyFriendsVO> queryMyFriends(String acceptUserId);
 
     List<FriendRequestVo> queryFriendRequestList(String userId);
+
+    String saveMsg(ChatMsg chatMsg);
 }

@@ -1,15 +1,14 @@
 package com.xatu.easyChat.service.Impl;
 
+import com.xatu.easyChat.easyChatServer.ChatMsg;
 import com.xatu.easyChat.entity.FriendsRequest;
 import com.xatu.easyChat.entity.MyFriends;
 import com.xatu.easyChat.entity.User;
+import com.xatu.easyChat.entity.enums.MsgSignFlagEnum;
 import com.xatu.easyChat.entity.enums.SearchFriendsStatusEnum;
 import com.xatu.easyChat.entity.vo.FriendRequestVo;
 import com.xatu.easyChat.entity.vo.MyFriendsVO;
-import com.xatu.easyChat.mapper.FriendsRequestMapper;
-import com.xatu.easyChat.mapper.MyFriendsMapper;
-import com.xatu.easyChat.mapper.UserMapper;
-import com.xatu.easyChat.mapper.UserMapperCustom;
+import com.xatu.easyChat.mapper.*;
 import com.xatu.easyChat.service.UserService;
 import com.xatu.easyChat.utils.*;
 import jdk.nashorn.internal.runtime.JSONFunctions;
@@ -39,6 +38,8 @@ public class UserServiceImpl implements UserService {
     FriendsRequestMapper friendsRequestMapper;
     @Autowired
     UserMapperCustom userMapperCustom;
+    @Autowired
+    ChatMsgMapper chatMsgMapper;
 
 
     @Override
@@ -179,6 +180,20 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<FriendRequestVo> queryFriendRequestList(String userId) {
         return userMapperCustom.queryFriendRequestList(userId);
+    }
+
+    @Override
+    public String saveMsg(ChatMsg chatMsg) {
+        com.xatu.easyChat.entity.ChatMsg chatMsgInfo = new com.xatu.easyChat.entity.ChatMsg();
+        chatMsgInfo.setId(String.valueOf(new IdWorker().nextId()));
+        chatMsgInfo.setSendUserId(chatMsg.getSenderId());
+        chatMsgInfo.setAcceptUserId(chatMsg.getReceiverId());
+        chatMsgInfo.setMsg(chatMsg.getMsg());
+        chatMsgInfo.setSignFlag(MsgSignFlagEnum.unsign.getStatus());
+        chatMsgInfo.setCreateTime(new Date());
+        chatMsgMapper.insert(chatMsgInfo);
+        return chatMsgInfo.getId();
+
     }
 
     //通过好友请求并保存数据到my_friends 表中
