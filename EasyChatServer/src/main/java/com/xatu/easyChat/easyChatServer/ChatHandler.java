@@ -13,8 +13,14 @@ import io.netty.channel.group.ChannelGroup;
 import io.netty.channel.group.DefaultChannelGroup;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import io.netty.util.concurrent.GlobalEventExecutor;
+import org.codehaus.plexus.util.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import javax.swing.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 
 /**
@@ -28,6 +34,7 @@ public class ChatHandler extends SimpleChannelInboundHandler<TextWebSocketFrame>
     public static ChannelGroup channels = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, TextWebSocketFrame textWebSocketFrame) throws Exception {
+        System.out.println("Channle Read");
        //获取客户端发送的消息
         String text = textWebSocketFrame.text();
         DataContent dataContent = JsonUtils.jsonToPojo(text, DataContent.class);
@@ -36,14 +43,17 @@ public class ChatHandler extends SimpleChannelInboundHandler<TextWebSocketFrame>
         Integer action = dataContent.getAction();
         //获取客户端channel
         Channel channel = channelHandlerContext.channel();
-
+        System.out.println(action);
+        System.out.println(chatMsg.getMsg());
         if(action == MsgActionEnum.CONNECT.type) {
             //客户端第一次openSocket 将客户端channel和userId关联
             String senderId = chatMsg.getSenderId();
             UserChannelRel.put(senderId,channel);
+            System.out.println(senderId+"||"+channel.id().asLongText()+"加入关联");
         }else if(action == MsgActionEnum.CHAT.type) {
             //获取用户消息保存到数据库并标记为未签收状态
             UserService userService = (UserService) SpringUtil.getBean("userServiceImpl");
+
             String msgId = userService.saveMsg(chatMsg);
             chatMsg.setMsgId(msgId);
             DataContent receiveDataContent = new DataContent();
@@ -66,9 +76,25 @@ public class ChatHandler extends SimpleChannelInboundHandler<TextWebSocketFrame>
 
         }else if(action == MsgActionEnum.SIGNED.type) {
             //签收消息dataContent类型针对特定消息进行签收，修改数据库中消息状态为已签收类型
-
-
+            UserService userService = (UserService) SpringUtil.getBean("userServiceImpl");
+            //签收类型的消息，其签收消息的id在expand中
+            String extand = dataContent.getExtand();
+            String[] signMsgId = extand.split(",");
+            List<String> msgIdList = new ArrayList<>();
+            //遍历前端传过来的signMsg数组判空加入List
+            for (String msgId : signMsgId) {
+                if(StringUtils.isNotBlank(msgId)) {
+                    msgIdList.add(msgId);
+                }
+            }
+            if(msgIdList!=null&&msgIdList.size()>0&&!msgIdList.isEmpty()) {
+                //批量签收
+                userService.updateMsgSigned(msgIdList);
+            }
+        }else if(action == MsgActionEnum.KEEPALIVE.type) {
+            //心跳类型消息
         }
+
 
 
     }
@@ -93,4 +119,11 @@ public class ChatHandler extends SimpleChannelInboundHandler<TextWebSocketFrame>
         System.out.println("客户端：" +channel.remoteAddress() + "下线");
         channels.remove(channel);
     }
-}
+
+
+   }
+
+
+
+
+

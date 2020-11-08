@@ -7,7 +7,9 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import org.springframework.stereotype.Component;
 
+@Component
 public class WebSocketServer {
     public static class SingletionWSServer{
          static final WebSocketServer instance = new WebSocketServer();

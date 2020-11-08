@@ -32,4 +32,6 @@ public interface UserService {
     List<FriendRequestVo> queryFriendRequestList(String userId);
 
     String saveMsg(ChatMsg chatMsg);
+
+    void updateMsgSigned(List<String> msgIdList);
 }

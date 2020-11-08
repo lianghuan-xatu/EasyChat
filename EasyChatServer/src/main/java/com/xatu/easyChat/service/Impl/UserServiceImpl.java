@@ -1,9 +1,12 @@
 package com.xatu.easyChat.service.Impl;
 
 import com.xatu.easyChat.easyChatServer.ChatMsg;
+import com.xatu.easyChat.easyChatServer.DataContent;
 import com.xatu.easyChat.entity.FriendsRequest;
 import com.xatu.easyChat.entity.MyFriends;
 import com.xatu.easyChat.entity.User;
+import com.xatu.easyChat.entity.UserChannelRel;
+import com.xatu.easyChat.entity.enums.MsgActionEnum;
 import com.xatu.easyChat.entity.enums.MsgSignFlagEnum;
 import com.xatu.easyChat.entity.enums.SearchFriendsStatusEnum;
 import com.xatu.easyChat.entity.vo.FriendRequestVo;
@@ -11,6 +14,8 @@ import com.xatu.easyChat.entity.vo.MyFriendsVO;
 import com.xatu.easyChat.mapper.*;
 import com.xatu.easyChat.service.UserService;
 import com.xatu.easyChat.utils.*;
+import io.netty.channel.Channel;
+import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import jdk.nashorn.internal.runtime.JSONFunctions;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -165,6 +170,18 @@ public class UserServiceImpl implements UserService {
         friendsRequest.setAcceptUserId(acceptUserId);
         deleteFriendRequest(friendsRequest);
 
+
+        //主动发送消息更新发送方好友通讯录列表
+        Channel sendChannel  = UserChannelRel.get(sendUserId);
+        if(sendChannel!=null){
+            //使用websocket 主动推送消息到请求发起者，更新他的通讯录列表为最新
+            DataContent dataContent = new DataContent();
+            dataContent.setAction(MsgActionEnum.PULL_FRIEND.type);
+
+            //消息的推送
+            sendChannel.writeAndFlush(new TextWebSocketFrame(JsonUtils.objectToJson(dataContent)));
+        }
+
     }
 
     /**
@@ -193,6 +210,16 @@ public class UserServiceImpl implements UserService {
         chatMsgInfo.setCreateTime(new Date());
         chatMsgMapper.insert(chatMsgInfo);
         return chatMsgInfo.getId();
+
+    }
+
+    /**
+     * 批量签收用户消息
+     * @param msgIdList
+     */
+    @Override
+    public void updateMsgSigned(List<String> msgIdList) {
+        userMapperCustom.batchUpdateMsgSigned(msgIdList);
 
     }
 

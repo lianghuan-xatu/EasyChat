@@ -17,4 +17,6 @@ public interface UserMapperCustom {
     public List<MyFriendsVO> queryMyFriends(String userId);
 
     List<FriendRequestVo> queryFriendRequestList(String userId);
+
+    void batchUpdateMsgSigned(List<String> msgIdList);
 }
