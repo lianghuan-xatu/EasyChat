@@ -16,13 +16,20 @@ public class NettyBooter implements ApplicationListener<ContextRefreshedEvent> {
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
-        WebSocketServer instance = WebSocketServer.getInstance();
-        try {
-            if(contextRefreshedEvent.getApplicationContext().getParent() == null) {
-                instance.startServer();
-            }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+
+        if(contextRefreshedEvent.getApplicationContext().getParent() == null) {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    WebSocketServer instance = WebSocketServer.getInstance();
+                    try {
+                        instance.startServer();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }).start();
+
         }
     }
 }

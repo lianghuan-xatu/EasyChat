@@ -223,6 +223,18 @@ public class UserServiceImpl implements UserService {
 
     }
 
+
+    /**
+     * 获取用户未签收消息
+     * @param acceptUserId
+     * @return
+     */
+    @Override
+    public List<com.xatu.easyChat.entity.ChatMsg> getUnReadMsgList(String acceptUserId) {
+        List<com.xatu.easyChat.entity.ChatMsg> result = chatMsgMapper.getUnReadMsgListByAcceptUid(acceptUserId);
+        return result;
+    }
+
     //通过好友请求并保存数据到my_friends 表中
     private void saveFriends(String sendUserId, String acceptUserId){
         MyFriends myFriends = new MyFriends();

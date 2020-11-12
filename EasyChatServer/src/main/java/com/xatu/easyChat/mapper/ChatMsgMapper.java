@@ -3,6 +3,8 @@ package com.xatu.easyChat.mapper;
 import com.xatu.easyChat.entity.ChatMsg;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface ChatMsgMapper {
     int deleteByPrimaryKey(String id);
@@ -16,4 +18,6 @@ public interface ChatMsgMapper {
     int updateByPrimaryKeySelective(ChatMsg record);
 
     int updateByPrimaryKey(ChatMsg record);
+
+    List<ChatMsg> getUnReadMsgListByAcceptUid(String acceptUserId);
 }

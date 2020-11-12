@@ -7,6 +7,7 @@ import com.aliyun.oss.OSSClient;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.util.BeanUtil;
+import com.xatu.easyChat.entity.ChatMsg;
 import com.xatu.easyChat.entity.FriendsRequest;
 import com.xatu.easyChat.entity.User;
 import com.xatu.easyChat.entity.bo.UserBo;
@@ -41,6 +42,7 @@ public class UserController {
 
     @Autowired
     UserService userService;
+
 
     /**
      * 根据用户uid来查询用户
@@ -239,6 +241,22 @@ public class UserController {
         return JSONResult.ok(myFriendsVO);
     }
 
+
+    /**
+     * 服务器重连获取未读信息
+     */
+    @RequestMapping("/getUnReadMsgList")
+    @ResponseBody
+    public JSONResult getUnReadMsgList(String acceptUserId) {
+        if(!StringUtils.isNotBlank(acceptUserId)) {
+            //接收消息者id为空
+            return JSONResult.errorMsg("acceptUserId is NULL!");
+        }else {
+            List<ChatMsg> unreadMsgList = userService.getUnReadMsgList(acceptUserId);
+            return JSONResult.ok(unreadMsgList);
+
+        }
+    }
 
 
 

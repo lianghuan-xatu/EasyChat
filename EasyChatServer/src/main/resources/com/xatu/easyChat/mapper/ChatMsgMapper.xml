@@ -18,7 +18,13 @@
     from chat_msg
     where id = #{id,jdbcType=VARCHAR}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    <select id="getUnReadMsgListByAcceptUid" parameterType="java.lang.String" resultType="com.xatu.easyChat.entity.ChatMsg">
+      select
+      <include refid="Base_Column_List" />
+      from chat_msg
+      where accept_user_id = #{acceptUserId,jdbcType=VARCHAR} and sign_flag=0
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from chat_msg
     where id = #{id,jdbcType=VARCHAR}
   </delete>

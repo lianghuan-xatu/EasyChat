@@ -34,4 +34,6 @@ public interface UserService {
     String saveMsg(ChatMsg chatMsg);
 
     void updateMsgSigned(List<String> msgIdList);
+
+    List<com.xatu.easyChat.entity.ChatMsg> getUnReadMsgList(String acceptUserId);
 }
